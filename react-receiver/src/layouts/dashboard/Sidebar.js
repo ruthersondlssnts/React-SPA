@@ -1,40 +1,45 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 function Sidebar() {
     return (
         <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div className="sb-sidenav-menu">
                 <div className="nav">
                         <div className="sb-sidenav-menu-heading">User</div>
-                        <a className="nav-link" href="index.html">
+                        <Link className="nav-link" to="/user/view-profile">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                             Profile
-                        </a>
-                        <a className="nav-link" href="index.html">
+                        </Link>
+                        <Link className="nav-link" to="/user/change-password">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                             Change Password
-                        </a>
-                        <a className="nav-link" href="index.html">
+                        </Link>
+                        <Link className="nav-link" to="/user/edit-account">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                             Edit Account
-                        </a>
+                        </Link>
                         <div className="sb-sidenav-menu-heading">Manager</div>
-                        <a className="nav-link" href="index.html">
+                        <Link className="nav-link" to="/employee">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                             Employees
-                        </a>
-                        <a className="nav-link" href="index.html">
+                        </Link>
+                        <Link className="nav-link" to="/unit">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                            Units
-                        </a>
+                        </Link>
                         <div className="sb-sidenav-menu-heading">Admin</div>
-                        <a className="nav-link" href="index.html">
+                        <Link className="nav-link" to="/role">
+                            <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
+                            Roles
+                        </Link>
+                        <Link className="nav-link" to="/register">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                             Register Employee
-                        </a>
-                        <a className="nav-link" href="index.html">
+                        </Link>
+                        <Link className="nav-link" to="/assign-role">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                            Assign Role
-                        </a>
+                        </Link>
                     </div>
             </div>
             <div className="sb-sidenav-footer">
