@@ -1,5 +1,5 @@
 
-import { Route, Switch } from "react-router-dom";
+import { Redirect,Route, Switch } from "react-router-dom";
 import Login from "../../components/auth/Login";
 import Register from "../../components/auth/Register";
 import AuthFooter from "./AuthFooter";
@@ -12,15 +12,12 @@ function AuthLayout() {
             <main>
                 <div className="container">
                     <div className="row justify-content-center">
-                    <Switch>
-                        <Route path="/login">
-                          <Login/>
-                        </Route>
+                      <Switch>
+                        <Route>
+                            <Login/>
+                        </Route>   
                         <Route path="/register">
                           <Register/>
-                        </Route>
-                        <Route path="/">
-                          <Login/>
                         </Route>
                       </Switch>
                       

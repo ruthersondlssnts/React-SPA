@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 function Register() {
@@ -10,7 +11,6 @@ function Register() {
     });
 
     const handleInput = (e) => {
-        console.log(e);
         const name = e.target.name;
         const value = e.target.value;
         setRegister({
@@ -38,6 +38,13 @@ function Register() {
             password:registerInput.password,
             roles: registerInput.roles
         }
+
+        axios.get('/sanctum/csrf-cookie',data).then(res =>{
+            axios.post('/api/v1/register',data).then(res =>{
+            
+            });
+        });
+
     };
 
     return (
@@ -91,7 +98,7 @@ function Register() {
                         </label>
                         </div>
                         <div className="mt-4 mb-0">
-                            <div className="d-grid"><a className="btn btn-dark btn-block" href="login.html">Create Account</a></div>
+                            <div className="d-grid"><button className="btn btn-dark btn-block" >Create Account</button></div>
                         </div>
                     </form>
                 </div>

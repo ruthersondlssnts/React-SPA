@@ -1,16 +1,16 @@
 
 import { Button,Modal } from 'react-bootstrap';
 
-function ModalDelete({onClose,show,name,onConfirm}) {
+function ModalDelete({onClose,show,data,onConfirm}) {
   
 
     return (
       <>
         <Modal show={show} onHide={onClose} animation={true}>
           <Modal.Header closeButton>
-            <Modal.Title>{name}</Modal.Title>
+            <Modal.Title>Delete</Modal.Title>
           </Modal.Header>
-          <Modal.Body> Are you sure you want to delete this item?</Modal.Body>
+          <Modal.Body> Are you sure you want to delete <b>{data.name}</b>?</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={onClose}>
               Close

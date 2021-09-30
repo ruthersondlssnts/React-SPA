@@ -1,17 +1,11 @@
 import '../../assets/css/styles.css';
 import '../../assets/js/scripts';
 import React from 'react';
-import EmployeeList from '../../components/employee/EmployeeList';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
-import { Router,Route,Switch } from 'react-router-dom';
-import UnitList from '../../components/unit/UnitList';
-import RoleList from '../../components/role/RoleList';
-import AssignRole from '../../components/role/AssignRole';
-import ChangePassword from '../../components/user/ChangePassword';
-import EditAccount from '../../components/user/EditAccount';
-import ViewProfile from '../../components/user/ViewProfile';
+import { Redirect,Route,Switch } from 'react-router-dom';
+import routes from '../../routes/routes';
 
 function MasterLayout() {
   
@@ -32,29 +26,22 @@ function MasterLayout() {
                         </ol> */}
 
                         <Switch>
-                            <Route path="/employee">
-                                <EmployeeList/>
-                            </Route>
-                            <Route path="/unit">
-                                <UnitList/>
-                            </Route>
-                            <Route path="/role">
-                                <RoleList/>
-                            </Route>
-                            <Route path="/assign-role">
-                                <AssignRole/>
-                            </Route>
-                            <Route path="/user/change-password">
-                                <ChangePassword/>
-                            </Route>
-                            <Route path="/user/edit-account">
-                                <EditAccount/>
-                            </Route>
-                            <Route path="/user/view-profile">
-                                <ViewProfile/>
-                            </Route>
+                            {routes.map((route,idx)=>{
+                                return (
+                                    route.component && (
+                                        <Route
+                                            key={idx}
+                                            path={route.path}
+                                            exact={route.exact}
+                                            render={(props)=>(
+                                                <route.component {...props} />
+                                            )}
+                                        />
+                                    )
+                                );
+                            })}
+                            <Redirect from="/" to="/user/view-profile" />                          
                         </Switch>
-
                     </div>
                 </main>
                 <Footer/>
