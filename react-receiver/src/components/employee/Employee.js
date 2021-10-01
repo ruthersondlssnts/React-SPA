@@ -9,7 +9,7 @@ function Employee(props) {
             <td>{props.data.contact}</td>
             <td>{props.data.department.name}</td>
             <td>
-            <Button variant="light" onClick={()=>props.onModalEditShow(props.data)} >Edit</Button> 
+            <Button variant="light" className="me-1" onClick={()=>props.onModalEditShow(props.data)} >Edit</Button> 
             <Button variant="danger" onClick={()=>props.onModalDeleteShow(props.data)}>Delete</Button> 
             </td>
             {/* {modalDeleteIsOpen && <ModalDelete onClose={deleteCloseHandler} show={modalDeleteIsOpen}/>  } 

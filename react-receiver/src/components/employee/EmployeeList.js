@@ -52,12 +52,12 @@ function EmployeeList() {
         setEmployee(...initialState);
     }
 
-    const handleCreateEditShow = (e) => {
-        e.id?setIfEdit(true):setIfEdit(false)
-        setEmployee(e)
+    const handleCreateEditShow = (unit) => {
+        unit.id?setIfEdit(true):setIfEdit(false)
+        setEmployee(unit)
         setCreateEditModal(true);
     }
-    const handleCreateEditConfirm = (e) => {
+    const handleCreateEditConfirm = (unit) => {
         setCreateEditModal(false);
         getEmployees();
     }
