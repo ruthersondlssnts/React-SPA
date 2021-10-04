@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import {BrowserRouter as  Router, Redirect, Route, Switch } from 'react-router-dom';
-import AuthLayout from './layouts/auth/AuthLayout';
+import Login from './components/auth/Login';
 import UserPrivateRoute from './UserPrivateRoute';
 
 axios.defaults.baseURL="http://127.0.0.1:8000";
@@ -20,7 +20,7 @@ function App() {
       <Router>
         <Switch>  
           <Route path="/login" exact={true} >
-              {localStorage.getItem('auth_token')? <Redirect to='/'/>: <AuthLayout/>}
+              {localStorage.getItem('auth_token')? <Redirect to='/'/>: <Login/>}
           </Route> 
           <UserPrivateRoute path="/" />
           {/* <Route path="/" render={(props)=> <MasterLayout {...props}/>} /> */}

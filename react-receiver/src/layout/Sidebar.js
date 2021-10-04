@@ -6,18 +6,18 @@ function Sidebar() {
             <div className="sb-sidenav-menu">
                 <div className="nav">
                         <div className="sb-sidenav-menu-heading">User</div>
-                        <Link className="nav-link" to="/user/view-profile">
+                        <Link className="nav-link" to="/dashboard">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
-                            Profile
+                            Dashboard
                         </Link>
-                        <Link className="nav-link" to="/user/change-password">
+                        {/* <Link className="nav-link" to="/user/change-password">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                             Change Password
                         </Link>
                         <Link className="nav-link" to="/user/edit-account">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                             Edit Account
-                        </Link>
+                        </Link> */}
                         <div className="sb-sidenav-menu-heading">Manager</div>
                         <Link className="nav-link" to="/employee">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
@@ -28,18 +28,18 @@ function Sidebar() {
                            Units
                         </Link>
                         <div className="sb-sidenav-menu-heading">Admin</div>
-                        <Link className="nav-link" to="/role">
+                        <Link className="nav-link" to="/user">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
-                            Roles
+                           Users
                         </Link>
-                        <Link className="nav-link" to="/register">
+                        {/* <Link className="nav-link" to="/register">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                             Register Employee
                         </Link>
                         <Link className="nav-link" to="/assign-role">
                             <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                            Assign Role
-                        </Link>
+                        </Link> */}
                     </div>
             </div>
             <div className="sb-sidenav-footer">

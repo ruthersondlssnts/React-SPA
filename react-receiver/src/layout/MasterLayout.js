@@ -1,11 +1,11 @@
-import '../../assets/css/styles.css';
-import '../../assets/js/scripts';
+import '../assets/css/styles.css';
+import '../assets/js/scripts';
 import React from 'react';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 import { Redirect,Route,Switch } from 'react-router-dom';
-import routes from '../../routes/routes';
+import routes from '../routes/routes';
 
 function MasterLayout() {
   
@@ -40,7 +40,7 @@ function MasterLayout() {
                                     )
                                 );
                             })}
-                            <Redirect from="/" to="/user/view-profile" />                          
+                            <Redirect from="/" to="/dashboard" />                          
                         </Switch>
                     </div>
                 </main>

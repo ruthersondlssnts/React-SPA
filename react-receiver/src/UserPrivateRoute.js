@@ -1,5 +1,5 @@
 import { Route,Redirect } from "react-router-dom";
-import MasterLayout from "./layouts/dashboard/MasterLayout";
+import MasterLayout from "./layout/MasterLayout";
 
 function UserPrivateRoute({...rest}) {
   return (
