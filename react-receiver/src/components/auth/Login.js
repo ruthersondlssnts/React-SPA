@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
+import { AuthContext } from "../../App";
 
 function Login() {
-    const history = useHistory();
+    let context=useContext(AuthContext);
     const [loginInput,setLogin] = useState({
         name:'',
         password:'',
@@ -31,14 +32,18 @@ function Login() {
 
         axios.get('/sanctum/csrf-cookie',data).then(res =>{
             axios.post('/api/v1/login',data).then(res =>{
+                console.log(res.data.user.employee)
                localStorage.setItem('auth_token',res.data.token);
                localStorage.setItem('auth_name',res.data.user.name);
+               if(res.data.user.employee){
+                localStorage.setItem('auth_employee',res.data.user.employee.id);
+               }
                var roles = res.data.roles.map(function(val) {
                 return val.name;
               }).join(',');
                 localStorage.setItem('auth_roles',roles);
                 swal("Success","Logged In Succesfully");
-                history.push("/");
+                context.updateAuthenticated(true);
             }).catch(error=>{
                 if (error.response) {
                     setLogin({

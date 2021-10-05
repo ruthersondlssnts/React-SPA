@@ -6,14 +6,20 @@ import Sidebar from './Sidebar';
 import Footer from './Footer';
 import { Redirect,Route,Switch } from 'react-router-dom';
 import routes from '../routes/routes';
+import { useState } from 'react';
+
+export const RolesContext=React.createContext();
 
 function MasterLayout() {
-  
+const [roles, setRoles] = useState(localStorage.getItem('auth_roles'));
   return (
+    <RolesContext.Provider value={roles}>
+
     <div className="sb-nav-fixed">
          <Topbar/>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
+
                 <Sidebar/>
                 
             </div>
@@ -24,24 +30,26 @@ function MasterLayout() {
                         <ol className="breadcrumb mb-4">
                             <li className="breadcrumb-item active">Dashboard</li>
                         </ol> */}
-
-                        <Switch>
-                            {routes.map((route,idx)=>{
-                                return (
-                                    route.component && (
-                                        <Route
-                                            key={idx}
-                                            path={route.path}
-                                            exact={route.exact}
-                                            render={(props)=>(
-                                                <route.component {...props} />
-                                            )}
-                                        />
-                                    )
-                                );
-                            })}
-                            <Redirect from="/" to="/dashboard" />                          
-                        </Switch>
+                            <Switch>
+                                {routes.map((route,idx)=>{
+                                    return (
+                                        route.component && (
+                                            <Route
+                                                key={idx}
+                                                path={route.path}
+                                                exact={route.exact}
+                                                render={(props)=>(
+                                                    
+                                                    <route.component {...props} />
+                                                )}
+                                            />
+                                        )
+                                    );
+                                })}
+                                <Redirect exact="true" from="/" to="/dashboard" />                          
+                                <Redirect from="" to="/404" />                          
+                            </Switch>
+                        
                     </div>
                 </main>
                 <Footer/>
@@ -49,6 +57,8 @@ function MasterLayout() {
         </div>
         
     </div>
+    </RolesContext.Provider> 
+
   );
 }
 

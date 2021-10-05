@@ -1,9 +1,12 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { RolesContext } from '../../layout/MasterLayout';
 import Employee from './Employee';
 import ModalCreateEdit from './ModalCreateEdit';
 import ModalDelete from './ModalDelete';
+import Spinner from '../Spinner';
+
 
 let initialState=[
     {
@@ -16,13 +19,16 @@ let initialState=[
 
 
 function EmployeeList() {
+    let context=useContext(RolesContext);
+
     const [showDeleteModal, setDeleteModal] = useState(false);
     const [showCreateEditModal, setCreateEditModal] = useState(false);
     const [isEdit, setIfEdit] = useState(false);
-
     const [employee, setEmployee] = useState({
         ...initialState
     });
+
+    const [spinner, setSpinner] = useState(true)
 
     const [employees,setEmployees]=useState([]);
 
@@ -75,7 +81,7 @@ function EmployeeList() {
             console.log(error);
         })
         .then(function () {
-            // always executed
+            setSpinner(false);
         });
     }
 
@@ -83,13 +89,24 @@ function EmployeeList() {
         getEmployees();
     },[]);
     
+    let admin = context.toLowerCase().includes("admin");
+    let manager = context.toLowerCase().includes("manager");
+    let isRender=false;
+    if ((admin && manager) || manager ) {
+        isRender = true;
+    }
+
+    if(spinner){
+        return <Spinner page="Employees"></Spinner>
+    }
+
     return (
         <section>
             <h1 className="mt-4">Employees</h1>
             <ol className="breadcrumb mb-4">
                 <li className="breadcrumb-item active">Employees</li>
             </ol>
-            <Button variant="primary" onClick={handleCreateEditShow} >Create</Button>
+            {isRender&&<Button variant="success" onClick={handleCreateEditShow} >Create</Button>}
 
             <table className="table">
             <thead>
@@ -98,22 +115,26 @@ function EmployeeList() {
                 <th scope="col">Name</th>
                 <th scope="col">Contact</th>
                 <th scope="col">Department</th>
-                <th scope="col">Action</th>
+                {isRender &&<th scope="col">Action</th>}
                 </tr>
             </thead>
             <tbody>
                 {
                      employees.map(emp=>
-                         <Employee key={emp.id}  data={emp} 
+                         <Employee key={emp.id}  data={emp} isRender={isRender}
                             onModalDeleteShow={handleDeleteModalShow}
                             onModalEditShow={handleCreateEditShow}
                         />)
                 }
             </tbody>
             </table>
-
-            <ModalDelete show={showDeleteModal} data={employee} onClose={handleDeleteModalClose} onConfirm={handleDeleteConfirm} ></ModalDelete>
-            <ModalCreateEdit show={showCreateEditModal} data={employee} isEdit={isEdit} initialState={initialState} onClose={handleCreateEditClose} onConfirm={handleCreateEditConfirm} ></ModalCreateEdit>
+            {
+                isRender&&
+                <>
+                    <ModalDelete show={showDeleteModal} data={employee} onClose={handleDeleteModalClose} onConfirm={handleDeleteConfirm} ></ModalDelete>
+                    <ModalCreateEdit show={showCreateEditModal} data={employee} isEdit={isEdit} initialState={initialState} onClose={handleCreateEditClose} onConfirm={handleCreateEditConfirm} ></ModalCreateEdit>
+                </>
+            }
         </section>
     );
 }

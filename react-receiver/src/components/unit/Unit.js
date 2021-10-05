@@ -24,15 +24,18 @@ function Unit(props) {
 
 
     return (
+        
         <tr>
             <td>{props.data.id}</td>
             <td>{props.data.name}</td>
             <td>{totalEmployees}</td>
             <td><Button variant="link" onClick={()=> {props.data.ascendants?props.onGettingBranches(props.data.ascendants+""+props.data.id):props.onGettingBranches(props.data.id)}} >Branches</Button></td>
-            <td>
-                <Button variant="light" className="me-1" onClick={()=>props.onModalEditShow(props.data)}  >Edit</Button> 
-                <Button variant="danger" onClick={()=>props.onModalDeleteShow(props.data)} >Delete</Button> 
-            </td>
+            {props.isRender&&
+                <td>
+                    <Button variant="light" className="me-1" onClick={()=>props.onModalEditShow(props.data)}  >Edit</Button> 
+                    <Button variant="danger" onClick={()=>props.onModalDeleteShow(props.data)} >Delete</Button> 
+                </td>
+            }
         </tr>
            
     );

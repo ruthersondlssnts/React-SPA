@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import User from './User';
 import ModalCreate from './ModalCreate';
@@ -7,8 +7,12 @@ import ModalEdit from './ModalEdit';
 import ModalChangePassword from './ModalChangePassword';
 import ModalDelete from './ModalDelete';
 import swal from 'sweetalert';
+import { RolesContext } from '../../layout/MasterLayout';
+import Spinner from '../Spinner';
 
 function UserList() {
+    
+    const [spinner, setSpinner] = useState(true)
     const [showDeleteModal, setDeleteModal] = useState(false);
     const [showCreateModal, setCreateModal] = useState(false);
     const [showEditModal, setEditModal] = useState(false);
@@ -38,6 +42,7 @@ function UserList() {
             console.log(error);
         })
         .then(function () {
+            setSpinner(false);
         });
     }
     //Create
@@ -136,22 +141,24 @@ function UserList() {
         
     }
 
-
+    if(spinner){
+		return <Spinner page="Users"></Spinner>
+	}
     return (
         <section>
             <h1 className="mt-4">Users</h1>
             <ol className="breadcrumb mb-4">
-                <li className="breadcrumb-item active">users</li>
+                <li className="breadcrumb-item active">Users</li>
             </ol>
-            <Button variant="success"  className="me-1" onClick={handleCreateShow} >create</Button>
+            <Button variant="success"  className="me-1" onClick={handleCreateShow} >Create</Button>
 
             <table className="table">
             <thead>
                 <tr>
-                <th scope="col">email</th>
-                <th scope="col">username</th>
-                <th scope="col">roles</th>
-                <th scope="col">action</th>
+                <th scope="col">Email</th>
+                <th scope="col">Username</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>

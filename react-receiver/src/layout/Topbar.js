@@ -1,10 +1,11 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from "react-router-dom";
+import { AuthContext } from '../App';
 
 function Topbar() {
     const history = useHistory();
-
+    let context=useContext(AuthContext);
 
     const logoutSubmitHandler =(e)=>{
         e.preventDefault();
@@ -13,17 +14,19 @@ function Topbar() {
             localStorage.removeItem('auth_token');
             localStorage.removeItem('auth_name');
             localStorage.removeItem('auth_roles');
-            history.push("/login");
+            localStorage.removeItem('auth_employee');
+            
+            context.updateAuthenticated(false);
         });
 
     }
-   
+    const username = localStorage.getItem('auth_name')
     return (
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a className="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
             <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i className="fas fa-bars"></i></button>
             <div className=" ms-auto me-0 me-md-3 my-2 my-md-0 text-white">
-              Hi { localStorage.getItem('auth_name')}
+              Hi {username }
             </div>
             <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li className="nav-item dropdown">

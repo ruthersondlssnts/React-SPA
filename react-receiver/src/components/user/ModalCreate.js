@@ -25,6 +25,7 @@ function ModalCreate({onClose,show,onConfirm}) {
       axios.get('/api/v1/employee/getAllNotUser')
       .then(function (response) {
           setEmployees(response.data);
+          console.log(response);
       })
       .catch(function (error) {
           console.log(error);
@@ -60,6 +61,7 @@ function ModalCreate({onClose,show,onConfirm}) {
       ...userInput,
       employee_id:emp.id,
     });
+    console.log(emp);
     setSuggestions([]);
   }
 
@@ -84,6 +86,7 @@ function ModalCreate({onClose,show,onConfirm}) {
         employee_id: userInput.employee_id,
         password_confirmation: userInput.password_confirmation
     }
+    console.log(data)
     // axios.get('/sanctum/csrf-cookie',data).then(res =>{
       axios.post('/api/v1/register',data).then(res =>{
         setUser({
@@ -145,22 +148,22 @@ function ModalCreate({onClose,show,onConfirm}) {
                 <input autoComplete="off" type="text" name="employee_id" onChange={e=> handleAutoCompleteInput(e.target.value)} value={employeeInput} className="form-control" id="exampleFormControlInput1" 
                   onBlur={()=>{
                     setTimeout(()=>{
-                      if (suggestions[0]) {
-                        setEmployeeInput(suggestions[0].name);
-                        setUser({
-                          ...userInput,
-                          employee_id:suggestions[0].id,
-                        });
-                      }
-                      setSuggestions([])
+                      // if (suggestions[0]) {
+                      //   setEmployeeInput(suggestions[0].name);
+                      //   setUser({
+                      //     ...userInput,
+                      //     employee_id:suggestions[0].id,
+                      //   });
+                      // }
+                      //setSuggestions([])
                     },100);
                 }}
                 />
-                <div className="suggestion-container col-md-12">
-                <div>{suggestions && suggestions.map((suggestion,i)=>
-                  <div onClick={()=>handleSuggest({name:suggestion.name,id:suggestion.id})} 
-                    className="suggestion p-1 justify-content-md-center" key={i}>{suggestion.name}</div>
-                )}</div>
+                <div className="suggestion-container col-12">
+                  <div >{suggestions && suggestions.map((suggestion,i)=>
+                    <div onClick={()=>handleSuggest({name:suggestion.name,id:suggestion.id})} 
+                      className="suggestion p-1 justify-content-md-center" key={i}>{suggestion.name}</div>
+                  )}</div>
                 </div>
                 {/* <input type="text" name="employee_id" onChange={handleInput} value={userInput.employee_id} className="form-control" id="exampleFormControlInput1" />*/}
                 <span className="text-danger">{userInput.error_list.employee_id}</span> 
