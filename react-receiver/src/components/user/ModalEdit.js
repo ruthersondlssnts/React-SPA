@@ -7,6 +7,7 @@ import swal from 'sweetalert';
 
 function ModalEdit({onClose,show,onConfirm,data}) {
  
+  const [btnSubmitPending, setbtnSubmitPending] = useState(false)
 
   const [userInput,setUser] = useState({
     username:'',
@@ -63,6 +64,7 @@ function ModalEdit({onClose,show,onConfirm,data}) {
 
   const handleSubmit = e => {
     e.preventDefault();
+    setbtnSubmitPending(true);
     const request = {
         name: userInput.username,
         email:userInput.email,
@@ -89,6 +91,9 @@ function ModalEdit({onClose,show,onConfirm,data}) {
           });
 
         }
+    }).then(function () {
+      setbtnSubmitPending(false);
+      
     });
     // });
 
@@ -103,15 +108,24 @@ function ModalEdit({onClose,show,onConfirm,data}) {
       error_summary:''
     });
     onClose();
+    setbtnSubmitPending(false);
   }
 
 
     return (
       <>
-        <Modal show={show} onHide={handleClose} animation={true}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit User</Modal.Title>
-          </Modal.Header>
+        <Modal show={show} onHide={handleClose} animation={true}  backdrop="static"
+          keyboard={false}>
+          {
+              btnSubmitPending?
+              <Modal.Header >
+                <Modal.Title>Edit User</Modal.Title>
+              </Modal.Header>
+          :
+              <Modal.Header closeButton>
+                    <Modal.Title>Edit User</Modal.Title>
+              </Modal.Header>
+          }
           <Modal.Body>
             <dl class="row">
                 <dt class="col-sm-3">Name</dt>
@@ -174,12 +188,21 @@ function ModalEdit({onClose,show,onConfirm,data}) {
               </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" form="create-form" type="submit">
-              Save
-            </Button>
+          {
+              btnSubmitPending?
+              <button className="btn btn-primary" type="button" disabled>
+                  <span className="spinner-border spinner-border-sm mx-1" role="status" ariaHidden="true"></span>
+                  Loading...
+              </button>:
+              <>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button variant="primary" form="create-form" type="submit">
+                  Save
+                </Button>
+              </>
+            }
           </Modal.Footer>
         </Modal>
       </>

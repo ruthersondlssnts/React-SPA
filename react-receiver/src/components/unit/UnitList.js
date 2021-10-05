@@ -24,6 +24,8 @@ function UnitList() {
     const [ancestors,setAncestors]=useState([]);
 
     const getUnitBranches =(unitId,isBack)=> {
+        setSpinner(true);
+
         if (unitId==null) {
             unitId=0;
         }
@@ -48,7 +50,6 @@ function UnitList() {
     }
 
     const handleBack =()=> {
-        setSpinner(true);
         getUnitBranches(ancestors[ancestors.length-2]?ancestors[ancestors.length-2].slice(0, -1):ancestors[ancestors.length-2],true)
         setAncestors(ancestors.filter(item => item !== ancestors[ancestors.length-1]));
     }
@@ -121,9 +122,17 @@ function UnitList() {
         isRender = true;
     }
 
-    
-    if(spinner){
-        return <Spinner page="Units"></Spinner>
+
+    let buttonCreate;
+
+    if(isRender&&spinner){
+        buttonCreate =  <button className="btn btn-success" type="button" disabled>
+        <span className="spinner-border spinner-border-sm mx-1" role="status" aria-hidden="true"></span>
+        Loading...
+        </button>;
+    }
+    else if(isRender&&(!spinner)){
+        buttonCreate = <Button variant="success" onClick={handleCreateEditShow} >Create</Button>;
     }
 
     return (
@@ -132,9 +141,10 @@ function UnitList() {
             <ol className="breadcrumb mb-4">
                 <li className="breadcrumb-item active">Units</li>
             </ol>
-           {isRender&&<Button variant="success"  className="me-1" onClick={handleCreateEditShow}>Create</Button>} 
+            {buttonCreate} 
+          
+            {spinner?<Spinner ></Spinner>:<>
             {ancestors.length>1?<Button variant="light" onClick={handleBack}>Go Back</Button>:''}
-
             <table className="table">
             <thead>
                 <tr>
@@ -158,7 +168,7 @@ function UnitList() {
                 <ModalCreateEdit show={showCreateEditModal} ascendants={ancestors[ancestors.length-1]??null} data={unit} isEdit={isEdit} onClose={handleCreateEditClose} onConfirm={handleCreateEditConfirm} ></ModalCreateEdit>
                 </>
             }
-            
+            </>}
        
         </section>
     );

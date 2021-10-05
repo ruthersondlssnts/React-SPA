@@ -33,6 +33,7 @@ function UserList() {
 
 
     function getUsers() {
+        setSpinner(true);
         axios.get('/api/v1/user')
         .then(function (response) {
             console.log(response);
@@ -141,37 +142,44 @@ function UserList() {
         
     }
 
-    if(spinner){
-		return <Spinner page="Users"></Spinner>
-	}
+  
     return (
         <section>
             <h1 className="mt-4">Users</h1>
             <ol className="breadcrumb mb-4">
                 <li className="breadcrumb-item active">Users</li>
             </ol>
-            <Button variant="success"  className="me-1" onClick={handleCreateShow} >Create</Button>
+            {spinner? 
+            <button className="btn btn-success" type="button" disabled>
+            <span className="spinner-border spinner-border-sm mx-1" role="status" aria-hidden="true"></span>
+            Loading...
+            </button>
+         : <Button variant="success"  className="me-1" onClick={handleCreateShow} >Create</Button>}
 
-            <table className="table">
-            <thead>
+            {spinner?<Spinner></Spinner>:
+            <>
+                <table className="table">
+                <thead>
                 <tr>
                 <th scope="col">Email</th>
                 <th scope="col">Username</th>
                 <th scope="col">Roles</th>
                 <th scope="col">Action</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {
                     users.map(user=> <User key={user.id}  data={user} onModalEditShow={handleEditShow} onModalChangePassShow={handleChangePassShow} onModalDeleteShow={handleDeleteShow}/>)
                 }
-            </tbody>
-            </table>
-            <ModalDelete username={user.username}  show={showDeleteModal} onClose={handleDeleteClose} onConfirm={handleDeleteConfirm}></ModalDelete>  
-            <ModalCreate show={showCreateModal} onClose={handleCreateClose} onConfirm={handleCreateConfirm}></ModalCreate> 
-            <ModalEdit show={showEditModal} data={user} onClose={handleEditClose} onConfirm={handleEditConfirm}></ModalEdit> 
-            <ModalChangePassword show={showChangePassModal} data={user} onClose={handleChangePassClose} onConfirm={handleChangePassConfirm}></ModalChangePassword> 
-       
+                </tbody>
+                </table>
+                <ModalDelete username={user.username}  show={showDeleteModal} onClose={handleDeleteClose} onConfirm={handleDeleteConfirm}></ModalDelete>  
+                <ModalCreate show={showCreateModal} onClose={handleCreateClose} onConfirm={handleCreateConfirm}></ModalCreate> 
+                <ModalEdit show={showEditModal} data={user} onClose={handleEditClose} onConfirm={handleEditConfirm}></ModalEdit> 
+                <ModalChangePassword show={showChangePassModal} data={user} onClose={handleChangePassClose} onConfirm={handleChangePassConfirm}></ModalChangePassword> 
+        
+            </>}
+            
         </section>
     );
 }

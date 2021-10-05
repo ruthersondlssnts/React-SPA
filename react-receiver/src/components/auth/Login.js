@@ -6,6 +6,7 @@ import { AuthContext } from "../../App";
 
 function Login() {
     let context=useContext(AuthContext);
+    const [btnPending, setBtnPending] = useState(false)
     const [loginInput,setLogin] = useState({
         name:'',
         password:'',
@@ -25,6 +26,7 @@ function Login() {
    
     const handleSubmit = e => {
         e.preventDefault();
+        setBtnPending(true);
         const data = {
             name: loginInput.name,
             password:loginInput.password,
@@ -44,6 +46,7 @@ function Login() {
                 localStorage.setItem('auth_roles',roles);
                 swal("Success","Logged In Succesfully");
                 context.updateAuthenticated(true);
+                setBtnPending(false);
             }).catch(error=>{
                 if (error.response) {
                     setLogin({
@@ -51,7 +54,7 @@ function Login() {
                         error_list:error.response.data.errors??[],
                         error_summary:error.response.data.message
                     });
-                    
+                    setBtnPending(false);
                 }
             });
         });
@@ -70,17 +73,17 @@ function Login() {
             <div className="card shadow-lg border-0 rounded-lg mt-5">
                 <div className="card-header"><h3 className="text-center font-weight-light my-4">Login</h3></div>
                 <div className="card-body">
-                    <section>{loginInput.error_summary}</section>
+                    <section  className="text-danger">{loginInput.error_summary}</section>
                     <form onSubmit={handleSubmit}>
                         <div className="form-floating mb-3">
                             <input className="form-control" id="inputName" name="name" onChange={handleInput} value={loginInput.name} type="text" placeholder="Username" />
                             <label htmlFor="inputName">Username</label>
-                            <span>{loginInput.error_list.name}</span>
+                            <span  className="text-danger">{loginInput.error_list.name}</span>
                         </div>
                         <div className="form-floating mb-3">
                             <input className="form-control" id="inputPassword" type="password" name="password" onChange={handleInput} value={loginInput.password} placeholder="Password" />
                             <label htmlFor="inputPassword">Password</label>
-                            <span>{loginInput.error_list.password}</span>
+                            <span className="text-danger">{loginInput.error_list.password}</span>
                         </div>
                         {/* <div className="form-check mb-3">
                             <input className="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
@@ -88,7 +91,15 @@ function Login() {
                         </div> */}
                         <div className="d-flex align-items-center justify-content-between mt-4 mb-0">
                             {/* <a className="small" href="password.html">Forgot Password?</a> */}
-                            <button className="btn btn-dark" href="index.html">Login</button>
+                            {btnPending?
+                                <button className="btn btn-dark" type="button" disabled>
+                                    <span className="spinner-border spinner-border-sm mx-1" role="status" ariaHidden="true"></span>
+                                    Loading...
+                                </button>
+                                :
+                                <button className="btn btn-dark" >Login</button>
+                            }
+                            
                         </div>
                     </form>
                 </div>

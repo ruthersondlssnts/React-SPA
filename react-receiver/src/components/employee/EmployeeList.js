@@ -70,6 +70,7 @@ function EmployeeList() {
 
 
     function getEmployees() {
+        setSpinner(true);
         axios.get('/api/v1/employee')
         .then(function (response) {
             // handle success
@@ -96,9 +97,19 @@ function EmployeeList() {
         isRender = true;
     }
 
-    if(spinner){
-        return <Spinner page="Employees"></Spinner>
+    let buttonCreate;
+
+    if(isRender&&spinner){
+        buttonCreate =  <button className="btn btn-success" type="button" disabled>
+        <span className="spinner-border spinner-border-sm mx-1" role="status" ariaHidden="true"></span>
+        Loading...
+        </button>;
     }
+    else if(isRender&&(!spinner)){
+        buttonCreate = <Button variant="success" onClick={handleCreateEditShow} >Create</Button>;
+    }
+
+    
 
     return (
         <section>
@@ -106,35 +117,40 @@ function EmployeeList() {
             <ol className="breadcrumb mb-4">
                 <li className="breadcrumb-item active">Employees</li>
             </ol>
-            {isRender&&<Button variant="success" onClick={handleCreateEditShow} >Create</Button>}
+            {buttonCreate}
 
-            <table className="table">
-            <thead>
-                <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Contact</th>
-                <th scope="col">Department</th>
-                {isRender &&<th scope="col">Action</th>}
-                </tr>
-            </thead>
-            <tbody>
+            {spinner?<Spinner></Spinner>:<>
+                <table className="table">
+                <thead>
+                    <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Department</th>
+                    {isRender &&<th scope="col">Action</th>}
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        employees.map(emp=>
+                            <Employee key={emp.id}  data={emp} isRender={isRender}
+                                onModalDeleteShow={handleDeleteModalShow}
+                                onModalEditShow={handleCreateEditShow}
+                            />)
+                    }
+                </tbody>
+                </table>
                 {
-                     employees.map(emp=>
-                         <Employee key={emp.id}  data={emp} isRender={isRender}
-                            onModalDeleteShow={handleDeleteModalShow}
-                            onModalEditShow={handleCreateEditShow}
-                        />)
+                    isRender&&
+                    <>
+                        <ModalDelete show={showDeleteModal} data={employee} onClose={handleDeleteModalClose} onConfirm={handleDeleteConfirm} ></ModalDelete>
+                        <ModalCreateEdit show={showCreateEditModal} data={employee} isEdit={isEdit} initialState={initialState} onClose={handleCreateEditClose} onConfirm={handleCreateEditConfirm} ></ModalCreateEdit>
+                    </>
                 }
-            </tbody>
-            </table>
-            {
-                isRender&&
-                <>
-                    <ModalDelete show={showDeleteModal} data={employee} onClose={handleDeleteModalClose} onConfirm={handleDeleteConfirm} ></ModalDelete>
-                    <ModalCreateEdit show={showCreateEditModal} data={employee} isEdit={isEdit} initialState={initialState} onClose={handleCreateEditClose} onConfirm={handleCreateEditConfirm} ></ModalCreateEdit>
-                </>
-            }
+            
+            </>}
+
+          
         </section>
     );
 }

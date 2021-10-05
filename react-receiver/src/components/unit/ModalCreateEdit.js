@@ -12,6 +12,7 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
       error_list:[],
       error_summary:''
   });
+  const [btnSubmitPending, setbtnSubmitPending] = useState(false)
 
 
   useEffect(() => {
@@ -59,7 +60,9 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
           });
             
         }
-    });
+    }).then(function () {
+      setbtnSubmitPending(false);
+    });;
   }
 
   const EditUnit =() =>{
@@ -88,11 +91,14 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
           });
             
         }
+    }).then(function () {
+      setbtnSubmitPending(false);
     });
  }
 
   const handleSubmit = e => {
     e.preventDefault();
+    setbtnSubmitPending(true);
     if(isEdit)
       EditUnit();
     else
@@ -102,11 +108,22 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
 
     return (
       <>
-        <Modal show={show} onHide={onClose} animation={true}>
-          <Modal.Header closeButton>
-            <Modal.Title>{isEdit?"Edit":"Create"} Unit</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
+        <Modal show={show} onHide={onClose} animation={true}
+         backdrop="static"
+         keyboard={false}>
+
+           {
+              btnSubmitPending?
+              <Modal.Header >
+                <Modal.Title>{isEdit?"Edit":"Create"} Unit</Modal.Title>
+              </Modal.Header>
+          :
+              <Modal.Header closeButton>
+                  <Modal.Title>{isEdit?"Edit":"Create"} Unit</Modal.Title>
+              </Modal.Header>
+          }
+
+            <Modal.Body>
               <form id="create-form" onSubmit={handleSubmit}>
               <span>{unit.error_summary}</span>
 
@@ -121,12 +138,21 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
               </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={onClose}>
-              Close
-            </Button>
-            <Button variant="primary" form="create-form" type="submit">
-              Save
-            </Button>
+          {
+              btnSubmitPending?
+              <button className="btn btn-primary" type="button" disabled>
+                  <span className="spinner-border spinner-border-sm mx-1" role="status" ariaHidden="true"></span>
+                  Loading...
+              </button>:
+              <>
+                <Button variant="secondary" onClick={onClose}>
+                  Close
+                </Button>
+                <Button variant="primary" form="create-form" type="submit">
+                  Save
+                </Button>
+              </>
+            }
           </Modal.Footer>
         </Modal>
       </>
