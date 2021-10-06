@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext } from 'react';
+import React, { useContext,useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { AuthContext } from '../App';
 
@@ -20,11 +20,16 @@ function Topbar() {
         });
 
     }
+    const handleToggle =(e)=>{
+        e.preventDefault();
+        document.body.classList.toggle('sb-sidenav-toggled');
+    }
+
     const username = localStorage.getItem('auth_name')
     return (
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a className="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
-            <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i className="fas fa-bars"></i></button>
+            <button className="btn btn-dark btn-sm order-1 order-lg-0 me-4 me-lg-0" onClick={handleToggle} href="#!"><i className="fas fa-bars"></i></button>
             <div className=" ms-auto me-0 me-md-3 my-2 my-md-0 text-white">
               Hi {username }
             </div>

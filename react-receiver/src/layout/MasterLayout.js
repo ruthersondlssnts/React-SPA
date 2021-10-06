@@ -1,5 +1,4 @@
 import '../assets/css/styles.css';
-import '../assets/js/scripts';
 import React from 'react';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
@@ -16,12 +15,10 @@ const [roles, setRoles] = useState(localStorage.getItem('auth_roles'));
     <RolesContext.Provider value={roles}>
 
     <div className="sb-nav-fixed">
-         <Topbar/>
+        <Topbar/>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
-
                 <Sidebar/>
-                
             </div>
             <div id="layoutSidenav_content">
                 <main>
