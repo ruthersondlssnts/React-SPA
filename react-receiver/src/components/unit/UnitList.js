@@ -96,11 +96,6 @@ function UnitList() {
 //Create Edit
     const handleCreateEditClose = () => {
         setCreateEditModal(false);
-        setUnit({
-            id:'',
-            name:'',
-            ascendants: ''
-        });
     }
 
     const handleCreateEditShow = (u) => {
@@ -148,7 +143,6 @@ function UnitList() {
             <table className="table">
             <thead>
                 <tr>
-                <th scope="col">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Employees</th>
                 <th scope="col">Branches</th>

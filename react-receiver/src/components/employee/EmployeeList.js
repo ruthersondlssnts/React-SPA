@@ -8,14 +8,6 @@ import ModalDelete from './ModalDelete';
 import Spinner from '../Spinner';
 
 
-let initialState=[
-    {
-        id:'',
-        name:'',
-        contact:'',
-        department_id: ''
-    }
-];
 
 
 function EmployeeList() {
@@ -25,7 +17,10 @@ function EmployeeList() {
     const [showCreateEditModal, setCreateEditModal] = useState(false);
     const [isEdit, setIfEdit] = useState(false);
     const [employee, setEmployee] = useState({
-        ...initialState
+        id:'',
+        name:'',
+        contact:'',
+        department_id: ''
     });
 
     const [spinner, setSpinner] = useState(true)
@@ -36,7 +31,12 @@ function EmployeeList() {
     //Delete
     const handleDeleteModalClose = () => {
         setDeleteModal(false);
-        setEmployee(...initialState);
+        setEmployee({
+            id:'',
+            name:'',
+            contact:'',
+            department_id: ''
+        });
     }
 
     const handleDeleteModalShow = (e) => {
@@ -49,13 +49,17 @@ function EmployeeList() {
             getEmployees();
         })
         setDeleteModal(false);
-        setEmployee(...initialState);
+        setEmployee({
+            id:'',
+            name:'',
+            contact:'',
+            department_id: ''
+        });
     }
 
     //Create
     const handleCreateEditClose = () => {
         setCreateEditModal(false);
-        setEmployee(...initialState);
     }
 
     const handleCreateEditShow = (unit) => {
@@ -123,7 +127,6 @@ function EmployeeList() {
                 <table className="table">
                 <thead>
                     <tr>
-                    <th scope="col">Id</th>
                     <th scope="col">Name</th>
                     <th scope="col">Contact</th>
                     <th scope="col">Department</th>
@@ -144,7 +147,7 @@ function EmployeeList() {
                     isRender&&
                     <>
                         <ModalDelete show={showDeleteModal} data={employee} onClose={handleDeleteModalClose} onConfirm={handleDeleteConfirm} ></ModalDelete>
-                        <ModalCreateEdit show={showCreateEditModal} data={employee} isEdit={isEdit} initialState={initialState} onClose={handleCreateEditClose} onConfirm={handleCreateEditConfirm} ></ModalCreateEdit>
+                        <ModalCreateEdit show={showCreateEditModal} data={employee} isEdit={isEdit}  onClose={handleCreateEditClose} onConfirm={handleCreateEditConfirm} ></ModalCreateEdit>
                     </>
                 }
             

@@ -8,28 +8,27 @@ function Unit(props) {
 
     
     useEffect(()=>{
-        axios.get('/api/v1/unit/getBranchEmployees/'+props.data.id)
-        .then(function (response) {
-            setTotalEmployees(response.data.data.length);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function () {
-        });
-        return () => {
-            setTotalEmployees(0); 
-        };
+        // axios.get('/api/v1/unit/getBranchEmployees/'+props.data.id)
+        // .then(function (response) {
+        //     setTotalEmployees(response.data.data.length);
+        // })
+        // .catch(function (error) {
+        //     console.log(error);
+        // })
+        // .then(function () {
+        // });
+        // return () => {
+        //     setTotalEmployees(0); 
+        // };
     },[]);
 
 
     return (
         
         <tr>
-            <td>{props.data.id}</td>
             <td>{props.data.name}</td>
-            <td>{totalEmployees}</td>
-            <td><Button variant="link" onClick={()=> {props.data.ascendants?props.onGettingBranches(props.data.ascendants+""+props.data.id):props.onGettingBranches(props.data.id)}} >Branches</Button></td>
+            <td>{props.data.total}</td>
+            <td>{!props.data.selectable&&<Button variant="link" onClick={()=> {props.data.ascendants?props.onGettingBranches(props.data.ascendants+""+props.data.id):props.onGettingBranches(props.data.id)}} >Branches</Button>}</td>
             {props.isRender&&
                 <td>
                     <Button variant="light" className="me-1" onClick={()=>props.onModalEditShow(props.data)}  >Edit</Button> 

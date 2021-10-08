@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Button,Modal } from 'react-bootstrap';
+import { Button,Form,Modal } from 'react-bootstrap';
 import swal from 'sweetalert';
 
 function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
@@ -9,6 +9,7 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
       name:'',
       id:'',
       ascendants:'',
+      selectable:false,
       error_list:[],
       error_summary:''
   });
@@ -16,15 +17,29 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
 
 
   useEffect(() => {
+    if(show){
     if(isEdit){
         setUnit({...unit,
         name:data.name,
+        selectable:data.selectable==1?true:false,
         id:data.id,
         ascendants:ascendants??'',
       })
+      setCheckbox(data.selectable==1?true:false)
     }
+  }
+  else{
+    setUnit({
+      name:'',
+      id:'',
+      ascendants:'',
+      selectable:false,
+      error_list:[],
+      error_summary:''
+    });
+  }
     
-  }, [data])
+  }, [show])
 
   const handleInput = (e) => {
       const name = e.target.name;
@@ -38,19 +53,15 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
   const CreateUnit =() =>{
     const data = {
       name: unit.name,
-      ascendants: ascendants
+      ascendants: ascendants,
+      selectable: unit.selectable
     }
 
     axios.post('/api/v1/unit/',data).then(res =>{
-      onConfirm(data.ascendants.slice(0, -1));
-      setUnit({
-        name:'',
-        id:'',
-        ascendants:'',
-        error_list:[],
-        error_summary:''
-      });
+     
       swal("Success","Created Succesfully");
+      onConfirm(data.ascendants.slice(0, -1));
+
     }).catch(error=>{
         if (error.response) {
             setUnit({
@@ -69,19 +80,13 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
     const data = {
       name: unit.name,
       ascendants: ascendants,
+      selectable:unit.selectable,
       id:unit.id
     }
 
     axios.put('/api/v1/unit/'+data.id,data).then(res =>{
-        onConfirm(data.ascendants.slice(0, -1));
-        setUnit({
-            name:'',
-            id:'',
-            ascendants:'',
-            error_list:[],
-            error_summary:''
-        });
         swal("Success","Edited Succesfully");
+        onConfirm(data.ascendants.slice(0, -1));
     }).catch(error=>{
         if (error.response) {
             setUnit({
@@ -104,7 +109,22 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
     else
       CreateUnit();
   };
-    
+  const handleCheckbox = e => {
+   console.log(e.target.value);
+
+    setUnit({
+      ...unit,
+      selectable: unit.selectable?false:true
+    });
+  };
+  function setCheckbox(selectable) {
+    var x = document.getElementsByClassName("unitCheckBox");
+    console.log(x);
+    if(selectable){
+      x[0].checked = true;
+    }
+ }
+ 
 
     return (
       <>
@@ -134,7 +154,12 @@ function ModalCreateEdit({onClose,show,data,ascendants,onConfirm,isEdit}) {
                     <input type="text" name="name" onChange={handleInput} value={unit.name} className="form-control" id="exampleFormControlInput1" />
                     <span>{unit.error_list.name}</span>
                 </div>
-
+                <div className="form-check">
+                    <input className="form-check-input unitCheckBox"  id="chckUser" name="chckUser" type="checkbox" value="" id="" onChange={handleCheckbox}   />
+                    <label className="form-check-label" htmlFor="chckUser">
+                      Selectable
+                    </label>
+                </div>
               </form>
           </Modal.Body>
           <Modal.Footer>

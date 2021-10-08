@@ -1,4 +1,5 @@
 import '../assets/css/styles.css';
+import 'antd/dist/antd.css'
 import React from 'react';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
@@ -6,6 +7,10 @@ import Footer from './Footer';
 import { Redirect,Route,Switch } from 'react-router-dom';
 import routes from '../routes/routes';
 import { useState } from 'react';
+
+
+
+
 
 export const RolesContext=React.createContext();
 
@@ -19,6 +24,7 @@ const [roles, setRoles] = useState(localStorage.getItem('auth_roles'));
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
                 <Sidebar/>
+               
             </div>
             <div id="layoutSidenav_content">
                 <main>
